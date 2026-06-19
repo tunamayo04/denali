@@ -1,4 +1,4 @@
-export interface BudgetRow {
+export interface BudgetItem {
   category: string
   budget: number
   actual: number

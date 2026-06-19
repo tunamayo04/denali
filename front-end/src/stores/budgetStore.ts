@@ -1,21 +1,21 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import type { BudgetRow } from '@/dtos/budget'
+import type { BudgetItem } from '@/dtos/budget'
 import BudgetService from '@/services/budgetService.ts'
 
 export const useBudgetStore = defineStore(
   "Budget",
   () => {
     // state
-    const rows = ref<BudgetRow[]>();
+    const rows = ref<BudgetItem[]>();
     const loading = ref<boolean>(false);
     const error = ref<string | null>(null);
 
-    async function fetchBudgetRows(): Promise<BudgetRow[] | undefined> {
+    async function fetchBudgetItems(): Promise<BudgetItem[] | undefined> {
       loading.value = true;
       error.value = null;
       try {
-        rows.value = await BudgetService.getBudgetRows();
+        rows.value = await BudgetService.getBudgetItems();
 
         return rows.value;
       } catch (error: any) {
@@ -32,7 +32,7 @@ export const useBudgetStore = defineStore(
       error,
 
       // actions
-      fetchBudgetRows,
+      fetchBudgetRows: fetchBudgetItems,
     }
   }
 )

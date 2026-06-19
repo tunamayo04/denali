@@ -20,11 +20,11 @@
 </template>
 
 <script setup lang="ts">
-import type { BudgetRow } from '@/dtos/budget.d'
+import type { BudgetItem } from '@/dtos/budget.d'
 import { computed } from 'vue'
 
 const props = defineProps<{
-  budgetData: BudgetRow[]
+  budgetData: BudgetItem[]
   totalActual: number
 }>()
 

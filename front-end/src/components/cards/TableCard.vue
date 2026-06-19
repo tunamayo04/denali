@@ -67,10 +67,10 @@
 
 <script setup lang="ts">
 import { formatCurrency } from '@/shared/utils'
-import type { BudgetRow } from '@/dtos/budget.d'
+import type { BudgetItem } from '@/dtos/budget.d'
 
 const props = defineProps<{
-  budgetData: BudgetRow[]
+  budgetData: BudgetItem[]
 }>()
 
 // Frontend Placeholder click logger
