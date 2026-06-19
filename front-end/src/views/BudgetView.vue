@@ -28,64 +28,44 @@
     </header>
 
     <section class="metrics-grid">
-      <MetricCard title="Total Budgeted" :amount="2000" />
-      <MetricCard title="Actual spent" :amount="3000" />
-      <MetricCard title="Over budget by" :amount="1000" alert />
+      <MetricCard title="Total Budgeted" :amount="totalBudgeted" />
+      <MetricCard title="Actual spent" :amount="totalActual" />
+      <MetricCard title="Over budget by" :amount="totalActual - totalBudgeted" alert />
     </section>
 
     <section class="budget-content">
-      <PieChartCard :budget-data="budgetData" :total-actual="totalActual" />
+      <PieChartCard :budget-data="budgetData" />
       <TableCard :budget-data="budgetData" />
     </section>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import MetricCard from '@/components/cards/MetricCard.vue'
-import type { BudgetItem } from '@/dtos/budget.d.js'
+import type { BudgetItem } from '@/models/budget.d.js'
 import PieChartCard from '@/components/cards/PieChartCard.vue'
 import TableCard from '@/components/cards/TableCard.vue'
 import { useBudgetStore } from '@/stores/budgetStore.ts'
 
-const budgetStore = useBudgetStore();
-console.log(budgetStore.fetchBudgetRows())
+const budgetStore = useBudgetStore()
 
-// Mock Database structured by Month to show dynamic switching working
-const monthlyDataDataSets: Record<string, BudgetItem[]> = {
-  'October 2026': [
-    { category: 'Rent', budget: 4000, actual: 4100, color: '#0084FF' },
-    { category: 'Utilities', budget: 1000, actual: 1000, color: '#A052FF' },
-    { category: 'Groceries', budget: 1000, actual: 1000, color: '#7033FF' },
-    { category: 'Insurance', budget: 900, actual: 1000, color: '#FFB800' },
-    { category: 'Entertainment', budget: 1000, actual: 1000, color: '#00E5A3' },
-    { category: 'Health and beauty', budget: 800, actual: 1000, color: '#0057FF' },
-    { category: 'Pet', budget: 0, actual: 100, color: '#FF7EA5' },
-  ],
-  'November 2026': [
-    { category: 'Rent', budget: 4000, actual: 4000, color: '#0084FF' },
-    { category: 'Utilities', budget: 1100, actual: 1250, color: '#A052FF' },
-    { category: 'Groceries', budget: 1000, actual: 920, color: '#7033FF' },
-    { category: 'Insurance', budget: 900, actual: 900, color: '#FFB800' },
-    { category: 'Entertainment', budget: 800, actual: 1100, color: '#00E5A3' },
-  ],
-  'December 2026': [
-    { category: 'Rent', budget: 4000, actual: 4100, color: '#0084FF' },
-    { category: 'Utilities', budget: 1000, actual: 950, color: '#A052FF' },
-    { category: 'Groceries', budget: 1500, actual: 1750, color: '#7033FF' },
-    { category: 'Gifts & Holiday', budget: 2000, actual: 2400, color: '#FF7EA5' },
-  ],
-}
+onMounted(async () => {
+  await budgetStore.fetchBudgetRows(6, 2026)
+})
 
 // Dropdown State Elements
-const selectedMonth = ref<string>('October 2026')
+const selectedMonth = ref<string>('June 2026')
 const isDropdownOpen = ref<boolean>(false)
-const availableMonths = Object.keys(monthlyDataDataSets)
+const availableMonths = ['July 2026']
 
-const budgetData = computed<BudgetItem[]>(() => {
-  return monthlyDataDataSets[selectedMonth.value] || []
-})
-const totalActual = computed(() => budgetData.value.reduce((acc, row) => acc + row.actual, 0))
+const budgetData = computed<BudgetItem[]>(() => budgetStore.rows ?? [])
+const totalBudgeted = computed(() =>
+  (budgetStore.rows ?? []).reduce((sum, item) => sum + item.budget_amount, 0),
+)
+const totalActual = computed(() =>
+  (budgetStore.rows ?? []).reduce((sum, item) => sum + item.actual_amount, 0),
+)
 
 // Dropdown Logic Toggles
 const toggleDropdown = () => (isDropdownOpen.value = !isDropdownOpen.value)
@@ -127,13 +107,13 @@ const vClickOutside = {
 .page-header h2 {
   font-size: 24px;
   font-weight: 600;
-  color: #1c1f21;
+  color: var(--color-text-main);
   margin: 0 0 4px 0;
 }
 
 .subtitle {
   font-size: 14px;
-  color: #757575;
+  color: var(--color-text-secondary);
   margin: 0;
 }
 

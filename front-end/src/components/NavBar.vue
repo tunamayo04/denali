@@ -30,6 +30,8 @@
 </template>
 
 <script setup lang="ts">
+import '@/assets/base.css'
+
 interface NavItem {
   label: string
   path: string
@@ -46,11 +48,6 @@ const navItems: NavItem[] = [
 <style scoped>
 .navbar {
   --nav-width: 220px;
-  --nav-bg: #ffffff;
-  --text-color: #555555;
-  --active-text-color: #ffffff;
-  --active-gradient-start: #0f101a;
-  --active-gradient-end: #03040a;
   --header-padding: 30px 24px;
   --body-padding: 10px 14px;
   --item-padding: 12px 16px;
@@ -60,7 +57,7 @@ const navItems: NavItem[] = [
   flex-direction: column;
   width: var(--nav-width);
   min-height: 100vh;
-  background-color: var(--nav-bg);
+  background-color: var(--color-background-soft);
   box-shadow: 1px 0 5px rgba(0, 0, 0, 0.02);
   box-sizing: border-box;
 }
@@ -74,13 +71,13 @@ const navItems: NavItem[] = [
 
 .logo-icon {
   font-size: 24px;
-  color: #7b61ff;
+  color: var(--c-whisteria);
 }
 
 .brand-name {
   font-size: 20px;
   font-weight: 700;
-  color: #1c1f21;
+  color: var(--color-text-main);
   margin: 0;
 }
 
@@ -101,7 +98,7 @@ const navItems: NavItem[] = [
   padding: var(--item-padding);
   text-decoration: none;
   border-radius: var(--item-border-radius);
-  color: var(--text-color);
+  color: var(--color-text-secondary);
   font-size: 14px;
   font-weight: 500;
   transition:
@@ -112,17 +109,13 @@ const navItems: NavItem[] = [
 
 .nav-item:not(.router-link-active):hover {
   background-color: rgba(0, 0, 0, 0.03);
-  color: #1c1f21;
+  color: var(--color-text-main);
 }
 
 /* Vue Router Active State Class */
 .nav-item.router-link-active {
-  background-image: linear-gradient(
-    135deg,
-    var(--active-gradient-start),
-    var(--active-gradient-end)
-  );
-  color: var(--active-text-color);
+  background-color: var(--color-background);
+  color: var(--color-text-main);
 }
 
 /* Font Icon Specific Styling */

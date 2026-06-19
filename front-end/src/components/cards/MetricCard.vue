@@ -6,6 +6,7 @@
 </template>
 
 <script setup lang="ts">
+import '@/assets/base.css'
 import { formatCurrency } from '@/shared/utils'
 
 const props = defineProps({
@@ -26,7 +27,7 @@ const props = defineProps({
 
 <style scoped>
 .metric-card {
-  background: #ffffff;
+  background: var(--color-background-soft);
   border-radius: 16px;
   padding: 24px;
   flex: 1;
@@ -37,7 +38,7 @@ const props = defineProps({
 
 .metric-card .card-label {
   font-size: 12px;
-  color: #8e8e93;
+  color: var(--color-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   display: block;
@@ -47,7 +48,7 @@ const props = defineProps({
 .metric-card .card-value {
   font-size: 28px;
   font-weight: 700;
-  color: #1c1f21;
+  color: var(--color-text-main);
   margin: 0;
 }
 
@@ -62,10 +63,10 @@ const props = defineProps({
 }
 
 .alert-card {
-  background-color: #fff5f5;
-  border: 1px solid #ffe2e2;
+  background-color: var(--c-dark-red);
+  border: 1px solid var(--c-medium-red);
 }
 .alert-card .card-value {
-  color: #e53e3e;
+  color: var(--c-bright-red);
 }
 </style>

@@ -21,7 +21,7 @@
         <tr
           v-for="row in props.budgetData"
           :key="row.category"
-          :class="{ 'row-warning': row.actual > row.budget }"
+          :class="{ 'row-warning': row.actual_amount > row.budget_amount }"
         >
           <td class="category-cell-container">
             <div class="category-cell-inner">
@@ -30,12 +30,12 @@
             </div>
           </td>
 
-          <td class="numeric-cell">{{ formatCurrency(row.budget) }}</td>
+          <td class="numeric-cell">{{ formatCurrency(row.budget_amount) }}</td>
 
           <td class="numeric-cell">
             <div class="status-cell-inner">
-              {{ formatCurrency(row.actual) }}
-              <span v-if="row.actual <= row.budget" class="status-icon success-icon">
+              {{ formatCurrency(row.actual_amount) }}
+              <span v-if="row.actual_amount <= row.budget_amount" class="status-icon success-icon">
                 <span class="material-symbols-outlined">check</span>
               </span>
               <span v-else class="status-icon warning-icon">
@@ -67,7 +67,7 @@
 
 <script setup lang="ts">
 import { formatCurrency } from '@/shared/utils'
-import type { BudgetItem } from '@/dtos/budget.d'
+import type { BudgetItem } from '@/models/budget.d'
 
 const props = defineProps<{
   budgetData: BudgetItem[]
@@ -81,7 +81,7 @@ const triggerAction = (actionName: string) => {
 
 <style scoped>
 .table-card {
-  background: #ffffff;
+  background: var(--color-background-soft);
   border-radius: 16px;
   padding: 24px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
@@ -98,12 +98,12 @@ const triggerAction = (actionName: string) => {
   margin: 0;
   font-size: 16px;
   font-weight: 600;
-  color: #1c1f21;
+  color: var(--color-text-main);
 }
 
 .btn-add-item {
-  background-color: #0f101a;
-  color: #fff;
+  background-color: var(--color-background);
+  color: white;
   border: none;
   padding: 8px 14px;
   font-size: 13px;
@@ -132,7 +132,7 @@ const triggerAction = (actionName: string) => {
 .budget-table th {
   font-size: 13px;
   font-weight: 500;
-  color: #8e8e93;
+  color: var(--color-text-main);
   padding: 12px 10px;
   border-bottom: 1px solid #f2f2f7;
 }
@@ -140,7 +140,7 @@ const triggerAction = (actionName: string) => {
 .budget-table td {
   padding: 14px 10px;
   font-size: 14px;
-  color: #1c1f21;
+  color: var(--color-text-main);
   border-bottom: 1px solid #f2f2f7;
   vertical-align: middle;
 }

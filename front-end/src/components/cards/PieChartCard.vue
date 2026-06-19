@@ -1,9 +1,7 @@
 <template>
   <div class="visual-card">
     <div class="chart-wrapper">
-      <div class="donut-chart" :style="{ background: dynamicConicGradient }">
-        <div class="donut-hole"></div>
-      </div>
+      <Doughnut :options="chartOptions" :data="chartData" />
     </div>
 
     <div class="chart-legend">
@@ -20,30 +18,37 @@
 </template>
 
 <script setup lang="ts">
-import type { BudgetItem } from '@/dtos/budget.d'
+import type { BudgetItem } from '@/models/budget.d'
+
+import { Doughnut } from 'vue-chartjs'
+import { Chart as ChartJS, Tooltip, ArcElement, type ChartData } from 'chart.js'
 import { computed } from 'vue'
 
 const props = defineProps<{
   budgetData: BudgetItem[]
-  totalActual: number
 }>()
 
-// Formats the pie segments dynamically based on whatever active data is picked
-const dynamicConicGradient = computed(() => {
-  let accumulatedPercentage = 0
-  const segments = props.budgetData.map((row) => {
-    const share = props.totalActual > 0 ? (row.actual / props.totalActual) * 100 : 0
-    const start = accumulatedPercentage
-    accumulatedPercentage += share
-    return `${row.color} ${start.toFixed(1)}% ${accumulatedPercentage.toFixed(1)}%`
-  })
-  return segments.length ? `conic-gradient(${segments.join(', ')})` : '#EAEAEA'
-})
+ChartJS.register(ArcElement, Tooltip)
+const chartData = computed<ChartData<'doughnut', number[], string>>(() => ({
+  labels: props.budgetData.map((item) => item.category),
+  datasets: [
+    {
+      backgroundColor: props.budgetData.map((item) => item.color),
+      data: props.budgetData.map((item) => Number(item.budget_amount)),
+    },
+  ],
+}))
+
+const chartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  borderWidth: 1,
+}
 </script>
 
 <style scoped>
 .visual-card {
-  background: #ffffff;
+  background: var(--color-background-soft);
   border-radius: 16px;
   padding: 30px;
   display: flex;
@@ -58,23 +63,6 @@ const dynamicConicGradient = computed(() => {
   margin-bottom: 30px;
 }
 
-.donut-chart {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.3s ease;
-}
-
-.donut-hole {
-  width: 120px;
-  height: 120px;
-  background-color: #ffffff;
-  border-radius: 50%;
-}
-
 .chart-legend {
   display: flex;
   flex-wrap: wrap;
@@ -87,6 +75,6 @@ const dynamicConicGradient = computed(() => {
   font-weight: 600;
   padding: 6px 14px;
   border-radius: 20px;
-  color: #ffffff;
+  color: white;
 }
 </style>

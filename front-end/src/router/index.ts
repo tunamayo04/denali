@@ -8,17 +8,17 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/overview',
     name: 'Overview',
-    component: () => import('@/views/OverviewPage.vue'),
+    component: () => import('@/views/OverviewView.vue'),
   },
   {
     path: '/budget',
     name: 'Budget',
-    component: () => import('@/views/BudgetPage.vue'),
+    component: () => import('@/views/BudgetView.vue'),
   },
   {
     path: '/transactions',
     name: 'Transactions',
-    component: () => import('../views/TransactionsPage.vue'),
+    component: () => import('../views/TransactionsView.vue'),
   },
   // {
   //   path: '/profile',

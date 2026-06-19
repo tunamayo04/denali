@@ -10,6 +10,7 @@
 
 <script setup lang="ts">
 import Navbar from './components/NavBar.vue'
+import '@/assets/base.css'
 </script>
 
 <style>
@@ -21,7 +22,7 @@ body,
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  background-color: #f8fafc;
+  background-color: var(--color-background);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 

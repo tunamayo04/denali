@@ -5,10 +5,13 @@ edition = "2024"
 
 [dependencies]
 axum = "0.8.9"
-rust_decimal = "1.42.1"
+bigdecimal = { version = "0.4.10", features=["serde"] }
+diesel = { version = "2.3.10", features = ["postgres", "numeric", "chrono"] }
+dotenv = "0.15.0"
 serde = { version = "1.0.228", features = ["derive"] }
 tokio = { version = "1.52.3", features = ["full"] }
 tower = "0.5.3"
 tower-http = { version = "0.7.0", features = ["cors"] }
 tracing = "0.1.44"
 tracing-subscriber = "0.3.23"
+chrono = { version = "0.4.45", features = ["serde"] }
