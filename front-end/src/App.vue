@@ -3,12 +3,14 @@
     <Navbar class="app-sidebar" />
 
     <main class="main-content">
+      <AppConfirmDialog />
       <router-view />
     </main>
   </div>
 </template>
 
 <script setup lang="ts">
+import AppConfirmDialog from './components/AppConfirmDialog.vue'
 import Navbar from './components/NavBar.vue'
 import '@/assets/base.css'
 </script>

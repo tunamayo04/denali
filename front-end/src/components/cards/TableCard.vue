@@ -51,11 +51,7 @@
             >
               <span class="material-symbols-outlined">edit</span>
             </button>
-            <button
-              class="icon-btn delete-btn"
-              title="Remove Item"
-              @click="triggerAction(`Remove ${row.category}`)"
-            >
+            <button class="icon-btn delete-btn" title="Remove Item" @click="confirmDelete(row.id)">
               <span class="material-symbols-outlined">delete</span>
             </button>
           </td>
@@ -68,10 +64,27 @@
 <script setup lang="ts">
 import { formatCurrency } from '@/shared/utils'
 import type { BudgetItem } from '@/models/budget.d'
+import { useConfirm } from 'primevue'
 
+const confirm = useConfirm()
 const props = defineProps<{
   budgetData: BudgetItem[]
+  onDelete: (id: number) => void
 }>()
+
+const confirmDelete = (id: number): void => {
+  confirm.require({
+    message: 'Are you sure you want to delete item?',
+    header: 'Confirm',
+    icon: 'pi pi-exclamation-triangle',
+
+    accept: () => {
+      props.onDelete(id)
+    },
+
+    reject: () => {},
+  })
+}
 
 // Frontend Placeholder click logger
 const triggerAction = (actionName: string) => {
@@ -131,10 +144,15 @@ const triggerAction = (actionName: string) => {
 
 .budget-table th {
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 800;
   color: var(--color-text-main);
   padding: 12px 10px;
   border-bottom: 1px solid #f2f2f7;
+  text-align: left;
+}
+
+.budget-table .actions-header {
+  text-align: right;
 }
 
 .budget-table td {

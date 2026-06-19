@@ -34,8 +34,12 @@
     </section>
 
     <section class="budget-content">
-      <PieChartCard :budget-data="budgetData" />
-      <TableCard :budget-data="budgetData" />
+      <PieChartCard
+        :labels="budgetData.map((item) => item.category)"
+        :colors="budgetData.map((item) => item.color)"
+        :data="budgetData.map((item) => item.budget_amount)"
+      />
+      <TableCard :budget-data="budgetData" :on-delete="onDelete" />
     </section>
   </div>
 </template>
@@ -51,7 +55,7 @@ import { useBudgetStore } from '@/stores/budgetStore.ts'
 const budgetStore = useBudgetStore()
 
 onMounted(async () => {
-  await budgetStore.fetchBudgetRows(6, 2026)
+  await budgetStore.fetchBudgetItems(6, 2026)
 })
 
 // Dropdown State Elements
@@ -59,12 +63,13 @@ const selectedMonth = ref<string>('June 2026')
 const isDropdownOpen = ref<boolean>(false)
 const availableMonths = ['July 2026']
 
-const budgetData = computed<BudgetItem[]>(() => budgetStore.rows ?? [])
+// Budget Store Computed Values
+const budgetData = computed<BudgetItem[]>(() => budgetStore.budgetItems ?? [])
 const totalBudgeted = computed(() =>
-  (budgetStore.rows ?? []).reduce((sum, item) => sum + item.budget_amount, 0),
+  (budgetStore.budgetItems ?? []).reduce((sum, item) => sum + item.budget_amount, 0),
 )
 const totalActual = computed(() =>
-  (budgetStore.rows ?? []).reduce((sum, item) => sum + item.actual_amount, 0),
+  (budgetStore.budgetItems ?? []).reduce((sum, item) => sum + item.actual_amount, 0),
 )
 
 // Dropdown Logic Toggles
@@ -73,6 +78,11 @@ const closeDropdown = () => (isDropdownOpen.value = false)
 const selectMonth = (month: string) => {
   selectedMonth.value = month
   isDropdownOpen.value = false
+}
+
+// Callback Props
+const onDelete = (id: number) => {
+  budgetStore.deleteBudgetItem(id)
 }
 
 const vClickOutside = {

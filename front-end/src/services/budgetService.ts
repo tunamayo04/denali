@@ -1,5 +1,5 @@
 import type { BudgetItem, GetBudgetItemsRequest } from '@/models/budget'
-import { Endpoints } from '@/shared/constants.ts'
+import { Endpoints } from '@/shared/endpoints.ts'
 import { HttpClientService } from '@/services/httpClientService.ts'
 
 export default class BudgetService {
@@ -18,6 +18,20 @@ export default class BudgetService {
         actual_amount: Number(item.actual_amount),
       }));
     } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  static async deleteBudgetItem(id: number): Promise<number> {
+    try {
+      const response = await this.httpClient.delete(
+        Endpoints.DELETE_BUDGET_ITEM,
+        { id }
+      );
+
+      return response.status;
+      } catch (error) {
       console.error(error);
       throw error;
     }

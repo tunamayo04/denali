@@ -6,7 +6,7 @@
 
     <div class="chart-legend">
       <span
-        v-for="row in props.budgetData"
+        v-for="row in pills"
         :key="row.category"
         class="legend-pill"
         :style="{ backgroundColor: row.color }"
@@ -18,32 +18,38 @@
 </template>
 
 <script setup lang="ts">
-import type { BudgetItem } from '@/models/budget.d'
-
 import { Doughnut } from 'vue-chartjs'
 import { Chart as ChartJS, Tooltip, ArcElement, type ChartData } from 'chart.js'
 import { computed } from 'vue'
 
 const props = defineProps<{
-  budgetData: BudgetItem[]
+  labels: string[]
+  colors: string[]
+  data: number[]
 }>()
 
 ChartJS.register(ArcElement, Tooltip)
 const chartData = computed<ChartData<'doughnut', number[], string>>(() => ({
-  labels: props.budgetData.map((item) => item.category),
+  labels: props.labels,
   datasets: [
     {
-      backgroundColor: props.budgetData.map((item) => item.color),
-      data: props.budgetData.map((item) => Number(item.budget_amount)),
+      backgroundColor: props.colors,
+      data: props.data,
     },
   ],
 }))
-
 const chartOptions = {
   responsive: true,
   maintainAspectRatio: false,
   borderWidth: 1,
 }
+
+const pills = computed(() =>
+  props.colors.map((color, i) => ({
+    color,
+    category: props.labels?.[i],
+  })),
+)
 </script>
 
 <style scoped>

@@ -21,4 +21,10 @@ export class HttpClientService {
   public async post<T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
     return this.axiosClient.post<T>(url, data, config)
   }
+  public async delete<T>(url: string, params?: unknown, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
+    return this.axiosClient.delete<T>(url, {
+      ...config,
+      params,
+    })
+  }
 }
