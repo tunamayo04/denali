@@ -2,7 +2,7 @@
   <aside class="navbar">
     <div class="nav-header">
       <span class="material-symbols-outlined logo-icon">account_balance_wallet</span>
-      <h1 class="brand-name">Billroo</h1>
+      <h1 class="brand-name">Denali</h1>
     </div>
 
     <nav class="nav-body">
@@ -33,7 +33,7 @@
 interface NavItem {
   label: string
   path: string
-  icon: string // Now just stores the icon identifier string
+  icon: string
 }
 
 const navItems: NavItem[] = [
@@ -74,7 +74,7 @@ const navItems: NavItem[] = [
 
 .logo-icon {
   font-size: 24px;
-  color: #7b61ff; /* Matches the purple logo hue */
+  color: #7b61ff;
 }
 
 .brand-name {
@@ -127,7 +127,7 @@ const navItems: NavItem[] = [
 
 /* Font Icon Specific Styling */
 .nav-icon {
-  font-size: 20px; /* Perfectly matches template dimensions */
+  font-size: 20px;
   margin-right: 12px;
   display: inline-flex;
   align-items: center;

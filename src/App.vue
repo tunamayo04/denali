@@ -19,7 +19,8 @@ body,
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  overflow: hidden;
   background-color: #f8fafc;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
@@ -27,14 +28,11 @@ body,
 .app-layout {
   display: flex;
   width: 100%;
-  min-height: 100vh;
-  align-items: stretch;
+  height: 100%;
 }
 
 .app-sidebar {
   flex-shrink: 0;
-  position: sticky;
-  top: 0;
   height: 100vh;
 }
 
@@ -42,6 +40,8 @@ body,
   flex-grow: 1;
   padding: 40px;
   box-sizing: border-box;
+
+  height: 100vh;
   overflow-y: auto;
 }
 </style>
