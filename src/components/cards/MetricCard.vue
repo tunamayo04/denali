@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import { formatCurrency } from '@/utils.js'
+import { formatCurrency } from '@/shared/utils'
 
 const props = defineProps({
   title: {

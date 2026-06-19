@@ -66,8 +66,8 @@
 </template>
 
 <script setup lang="ts">
-import { formatCurrency } from '@/utils.js'
-import type { BudgetRow } from '@/dtos/budget.js'
+import { formatCurrency } from '@/shared/utils'
+import type { BudgetRow } from '@/dtos/budget.d'
 
 const props = defineProps<{
   budgetData: BudgetRow[]

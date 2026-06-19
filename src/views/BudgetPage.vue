@@ -43,9 +43,12 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import MetricCard from '@/components/cards/MetricCard.vue'
-import type { BudgetRow } from '@/dtos/budget.ts'
+import type { BudgetRow } from '@/dtos/budget.d.js'
 import PieChartCard from '@/components/cards/PieChartCard.vue'
 import TableCard from '@/components/cards/TableCard.vue'
+import { useBudgetStore } from '@/stores/budgetStore.ts'
+
+const budgetStore = useBudgetStore();
 
 // Mock Database structured by Month to show dynamic switching working
 const monthlyDataDataSets: Record<string, BudgetRow[]> = {

@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import type { BudgetRow } from '@/dtos/budget.js'
+import type { BudgetRow } from '@/dtos/budget.d'
 import { computed } from 'vue'
 
 const props = defineProps<{
