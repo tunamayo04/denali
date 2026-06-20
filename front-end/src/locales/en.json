@@ -1,0 +1,12 @@
+{
+  "app": {
+    "name": "Denali"
+  },
+  "nav": {
+    "overview": "Overview",
+    "budget": "Budget",
+    "transactions": "Transactions",
+    "help": "Help",
+    "profile": "Profile"
+  }
+}

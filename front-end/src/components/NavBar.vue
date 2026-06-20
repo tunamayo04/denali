@@ -2,7 +2,7 @@
   <aside class="navbar">
     <div class="nav-header">
       <span class="material-symbols-outlined logo-icon">account_balance_wallet</span>
-      <h1 class="brand-name">Denali</h1>
+      <h1 class="brand-name">{{ t('app.name') }}</h1>
     </div>
 
     <nav class="nav-body">
@@ -10,7 +10,7 @@
         <li v-for="item in navItems" :key="item.path">
           <router-link :to="item.path" class="nav-item">
             <span class="material-symbols-outlined nav-icon">{{ item.icon }}</span>
-            <span class="nav-label">{{ item.label }}</span>
+            <span class="nav-label">{{ t(item.label) }}</span>
           </router-link>
         </li>
       </ul>
@@ -19,18 +19,21 @@
     <div class="nav-footer">
       <router-link to="/help" class="nav-item footer-item">
         <span class="material-symbols-outlined nav-icon">help</span>
-        <span class="nav-label">Help</span>
+        <span class="nav-label">{{ t('nav.help') }}</span>
       </router-link>
       <router-link to="/profile" class="nav-item footer-item">
         <span class="material-symbols-outlined nav-icon">person</span>
-        <span class="nav-label">Profile</span>
+        <span class="nav-label">{{ t('nav.profile') }}</span>
       </router-link>
     </div>
   </aside>
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import '@/assets/base.css'
+
+const { t } = useI18n()
 
 interface NavItem {
   label: string
@@ -39,9 +42,9 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { label: 'Overview', path: '/overview', icon: 'insert_chart' },
-  { label: 'Budget', path: '/budget', icon: 'savings' },
-  { label: 'Transactions', path: '/transactions', icon: 'sync_alt' },
+  { label: 'nav.overview', path: '/overview', icon: 'insert_chart' },
+  { label: 'nav.budget', path: '/budget', icon: 'savings' },
+  { label: 'nav.transactions', path: '/transactions', icon: 'sync_alt' },
 ]
 </script>
 

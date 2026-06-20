@@ -1,0 +1,12 @@
+{
+  "app": {
+    "name": "Denali"
+  },
+  "nav": {
+    "overview": "概要",
+    "budget": "予算",
+    "transactions": "取引",
+    "help": "ヘルプ",
+    "profile": "プロフィール"
+  }
+}
