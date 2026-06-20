@@ -7,23 +7,7 @@
       </div>
 
       <div class="header-actions">
-        <div class="dropdown-wrapper" v-click-outside="closeDropdown">
-          <button class="date-badge" @click="toggleDropdown">
-            {{ selectedMonth }}
-            <span class="material-symbols-outlined">expand_more</span>
-          </button>
-
-          <ul v-if="isDropdownOpen" class="dropdown-menu">
-            <li
-              v-for="month in availableMonths"
-              :key="month"
-              :class="{ active: month === selectedMonth }"
-              @click="selectMonth(month)"
-            >
-              {{ month }}
-            </li>
-          </ul>
-        </div>
+        <MonthPicker v-model="currentMonth" />
       </div>
     </header>
 
@@ -55,8 +39,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import MetricCard from '@/components/cards/MetricCard.vue'
+import MonthPicker from '@/components/MonthPicker.vue'
 import type { BudgetItem } from '@/models/budget.d'
 import PieChartCard from '@/components/cards/PieChartCard.vue'
 import TableCard from '@/components/cards/TableCard.vue'
@@ -64,14 +49,17 @@ import { useBudgetStore } from '@/stores/budgetStore'
 
 const budgetStore = useBudgetStore()
 
-onMounted(async () => {
-  await budgetStore.fetchBudgetItems(6, 2026)
-})
+// Selected month, owned here and driven by the MonthPicker
+const currentMonth = ref<Date>(new Date(2026, 5, 1))
 
-// Dropdown State Elements
-const selectedMonth = ref<string>('June 2026')
-const isDropdownOpen = ref<boolean>(false)
-const availableMonths = ['July 2026']
+const fetchMonthlyData = (date: Date) =>
+  budgetStore.fetchBudgetItems(date.getMonth() + 1, date.getFullYear())
+
+watch(currentMonth, (date) => fetchMonthlyData(date))
+
+onMounted(async () => {
+  await fetchMonthlyData(currentMonth.value)
+})
 
 // Budget Store Computed Values
 const budgetData = computed<BudgetItem[]>(() => budgetStore.budgetItems ?? [])
@@ -82,37 +70,16 @@ const totalActual = computed(() =>
   (budgetStore.budgetItems ?? []).reduce((sum, item) => sum + item.actual_amount, 0),
 )
 
-// Dropdown Logic Toggles
-const toggleDropdown = () => (isDropdownOpen.value = !isDropdownOpen.value)
-const closeDropdown = () => (isDropdownOpen.value = false)
-const selectMonth = (month: string) => {
-  selectedMonth.value = month
-  isDropdownOpen.value = false
-}
-
 // Callback Props
 const onDelete = (id: number) => {
   budgetStore.deleteBudgetItem(id)
 }
 const onAdd = (item: BudgetItem) => {
+  item.month = currentMonth.value;
   budgetStore.addBudgetItem(item)
 }
 const onEdit = (item: BudgetItem) => {
   budgetStore.editBudgetItem(item)
-}
-
-const vClickOutside = {
-  mounted(el: any, binding: any) {
-    el.clickOutsideEvent = (event: Event) => {
-      if (!(el === event.target || el.contains(event.target))) {
-        binding.value()
-      }
-    }
-    document.body.addEventListener('click', el.clickOutsideEvent)
-  },
-  unmounted(el: any) {
-    document.body.removeEventListener('click', el.clickOutsideEvent)
-  },
 }
 </script>
 
@@ -143,65 +110,46 @@ const vClickOutside = {
   margin: 0;
 }
 
-.dropdown-wrapper {
-  position: relative;
-  display: inline-block;
-}
-
-.date-badge {
-  background: #ffffff;
-  padding: 10px 18px;
-  border-radius: 8px;
-  border: 1px solid #eaeaea;
-  font-size: 14px;
-  font-weight: 500;
+.month-stepper {
   display: flex;
   align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  color: #1c1f21;
-  transition: background-color 0.15s;
-}
-
-.date-badge:hover {
-  background-color: #f8fafc;
-}
-
-.date-badge span {
-  font-size: 18px;
-  color: #666;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: calc(100% + 6px);
-  right: 0;
-  background: #ffffff;
-  border: 1px solid #eaeaea;
+  gap: 4px;
+  background: var(--color-background-soft);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-  padding: 6px 0;
-  list-style: none;
-  min-width: 160px;
-  z-index: 100;
-  margin: 0;
+  padding: 4px;
 }
 
-.dropdown-menu li {
-  padding: 10px 16px;
+.month-label {
+  min-width: 130px;
+  text-align: center;
   font-size: 14px;
-  color: #333;
+  font-weight: 500;
+  color: var(--color-text-main);
+  user-select: none;
+}
+
+.step-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-text-secondary);
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background-color 0.15s, color 0.15s;
 }
 
-.dropdown-menu li:hover {
-  background: #f1f5f9;
+.step-btn:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: var(--color-primary);
 }
 
-.dropdown-menu li.active {
-  background: #eceff3;
-  font-weight: 600;
+.step-btn .material-symbols-outlined {
+  font-size: 20px;
 }
 
 .metrics-grid {
