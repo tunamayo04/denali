@@ -21,6 +21,7 @@
 import { Doughnut } from 'vue-chartjs'
 import { Chart as ChartJS, Tooltip, ArcElement, type ChartData } from 'chart.js'
 import { computed } from 'vue'
+import { formatCurrency } from '@/shared/utils.ts'
 
 const props = defineProps<{
   labels: string[]
@@ -42,6 +43,15 @@ const chartOptions = {
   responsive: true,
   maintainAspectRatio: false,
   borderWidth: 1,
+  plugins: {
+    tooltip: {
+      callbacks: {
+        label(context) {
+          return `${context.label}: ${formatCurrency(context.parsed)}`
+        },
+      },
+    },
+  },
 }
 
 const pills = computed(() =>

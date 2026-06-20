@@ -1,6 +1,8 @@
 use diesel::prelude::*;
 use chrono::NaiveDate;
+use crate::models::requests::add_budget_item_request::AddBudgetItemRequest;
 use crate::models::requests::delete_budget_item_request::DeleteBudgetItemRequest;
+use crate::models::requests::edit_budget_item_request::EditBudgetItemRequest;
 use crate::models::responses::budget_item::BudgetItem;
 use crate::models::requests::get_budget_items_request::GetBudgetItemsRequest;
 use crate::repositories::establish_connection;
@@ -18,6 +20,37 @@ pub async fn get_budget_items(request: &GetBudgetItemsRequest) -> Vec<BudgetItem
         .unwrap();
 
     results
+}
+
+pub async fn add_budget_item(request: &AddBudgetItemRequest) -> QueryResult<usize> {
+    let connection = &mut establish_connection();
+
+    let date = NaiveDate::from_ymd_opt(request.year, request.month, 1).unwrap();
+    let result = diesel::insert_into(budget_items)
+    .values((
+        month.eq(date),
+        category.eq(&request.category),
+        budget_amount.eq(&request.budget_amount),
+        actual_amount.eq(&request.actual_amount),
+        color.eq(&request.color)))
+    .execute(connection);
+
+    result
+}
+
+pub async fn edit_budget_item(request: &EditBudgetItemRequest) -> QueryResult<usize> {
+    let connection = &mut establish_connection();
+
+    let item = budget_items.filter(id.eq(request.id));
+    let result = diesel::update(item)
+        .set((
+            category.eq(&request.category),
+            budget_amount.eq(&request.budget_amount),
+            actual_amount.eq(&request.actual_amount),
+            color.eq(&request.color)))
+        .execute(connection);
+
+    result
 }
 
 pub async fn delete_budget_item(request: &DeleteBudgetItemRequest) -> QueryResult<usize> {

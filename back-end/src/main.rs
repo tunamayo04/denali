@@ -1,5 +1,6 @@
 use axum::{routing::get, routing::delete, Router};
 use axum::http::Method;
+use axum::routing::{post, put};
 use tower::ServiceBuilder;
 use tower_http::cors::{Any, CorsLayer};
 use crate::controllers::budget_controller::*;
@@ -14,13 +15,16 @@ async fn main() {
 
     let cors = CorsLayer::new()
     .allow_methods(vec![Method::GET, Method::POST, Method::PUT, Method::DELETE])
-    .allow_origin(Any);
+    .allow_origin(Any)
+    .allow_headers(vec![axum::http::header::CONTENT_TYPE]);
 
     let service = ServiceBuilder::new()
         .layer(cors);
 
     let app = Router::new()
         .route("/GetBudgetItems", get(get_budget_items))
+        .route("/AddBudgetItem", post(add_budget_item))
+        .route("/EditBudgetItem", put(edit_budget_item))
         .route("/DeleteBudgetItem", delete(delete_budget_item))
         .layer(service);
 

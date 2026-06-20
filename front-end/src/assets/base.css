@@ -12,6 +12,10 @@
   --c-dark-red: rgb(57, 0, 0);
   --c-medium-red: rgb(111, 0, 0);
   --c-bright-red: rgb(231, 75, 75);
+
+  --c-dark-green: rgb(0, 57, 0);
+  --c-medium-green: rgb(0, 111, 0);
+  --c-bright-green: rgb(0, 231, 75);
 }
 
 :root {
@@ -20,4 +24,7 @@
 
   --color-text-main: var(--c-off-white);
   --color-text-secondary: var(--c-grey);
+
+  --color-primary: var(--c-whisteria);
+  --color-secondary: var(--c-alice-blue);
 }

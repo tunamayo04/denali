@@ -30,7 +30,12 @@
     <section class="metrics-grid">
       <MetricCard title="Total Budgeted" :amount="totalBudgeted" />
       <MetricCard title="Actual spent" :amount="totalActual" />
-      <MetricCard title="Over budget by" :amount="totalActual - totalBudgeted" alert />
+      <MetricCard
+        :title="totalActual - totalBudgeted > 0 ? 'Over budget by' : 'Under budget by'"
+        :amount="Math.abs(totalActual - totalBudgeted)"
+        :alert="totalActual - totalBudgeted > 0"
+        :green="totalActual - totalBudgeted <= 0"
+      />
     </section>
 
     <section class="budget-content">
@@ -39,7 +44,12 @@
         :colors="budgetData.map((item) => item.color)"
         :data="budgetData.map((item) => item.budget_amount)"
       />
-      <TableCard :budget-data="budgetData" :on-delete="onDelete" />
+      <TableCard
+        :budget-data="budgetData"
+        :on-delete="onDelete"
+        :on-add="onAdd"
+        :on-edit="onEdit"
+      />
     </section>
   </div>
 </template>
@@ -47,10 +57,10 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import MetricCard from '@/components/cards/MetricCard.vue'
-import type { BudgetItem } from '@/models/budget.d.js'
+import type { BudgetItem } from '@/models/budget.d'
 import PieChartCard from '@/components/cards/PieChartCard.vue'
 import TableCard from '@/components/cards/TableCard.vue'
-import { useBudgetStore } from '@/stores/budgetStore.ts'
+import { useBudgetStore } from '@/stores/budgetStore'
 
 const budgetStore = useBudgetStore()
 
@@ -83,6 +93,12 @@ const selectMonth = (month: string) => {
 // Callback Props
 const onDelete = (id: number) => {
   budgetStore.deleteBudgetItem(id)
+}
+const onAdd = (item: BudgetItem) => {
+  budgetStore.addBudgetItem(item)
+}
+const onEdit = (item: BudgetItem) => {
+  budgetStore.editBudgetItem(item)
 }
 
 const vClickOutside = {

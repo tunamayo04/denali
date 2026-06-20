@@ -1,8 +1,9 @@
 <template>
+  <BudgetItemModal :visible="modalVisible" :modelValue="editingItem" @close="modalVisible = false" @save="saveItem" />
   <div class="table-card">
     <div class="table-header-row">
       <h3>Budget Allocations</h3>
-      <button class="btn-add-item" @click="triggerAction('Add Item')">
+      <button class="btn-add-item" @click="openAddModal()">
         <span class="material-symbols-outlined">add</span>
         Add Item
       </button>
@@ -47,7 +48,7 @@
             <button
               class="icon-btn edit-btn"
               title="Edit Item"
-              @click="triggerAction(`Edit ${row.category}`)"
+              @click="openEditModal(row)"
             >
               <span class="material-symbols-outlined">edit</span>
             </button>
@@ -65,13 +66,18 @@
 import { formatCurrency } from '@/shared/utils'
 import type { BudgetItem } from '@/models/budget.d'
 import { useConfirm } from 'primevue'
+import { ref } from 'vue'
+import BudgetItemModal from '@/components/BudgetItemModal.vue'
 
 const confirm = useConfirm()
 const props = defineProps<{
-  budgetData: BudgetItem[]
-  onDelete: (id: number) => void
+  budgetData: BudgetItem[],
+  onDelete: (id: number) => void,
+  onAdd: (item: BudgetItem) => void,
+  onEdit: (item: BudgetItem) => void,
 }>()
 
+// Delete button
 const confirmDelete = (id: number): void => {
   confirm.require({
     message: 'Are you sure you want to delete item?',
@@ -86,9 +92,26 @@ const confirmDelete = (id: number): void => {
   })
 }
 
-// Frontend Placeholder click logger
-const triggerAction = (actionName: string) => {
-  alert(`Frontend Action Called: "${actionName}"\n(Hook dynamic CRUD logic / modals here)`)
+// Add and edit buttons
+const modalVisible = ref(false)
+const editingItem = ref<BudgetItem | null>(null)
+
+const openAddModal = () => {
+  editingItem.value = null
+  modalVisible.value = true
+}
+
+const openEditModal = (row: BudgetItem) => {
+  editingItem.value = row
+  modalVisible.value = true
+}
+
+const saveItem = (item: BudgetItem) => {
+  if (item.id) {
+    props.onEdit(item)
+  } else {
+    props.onAdd(item)
+  }
 }
 </script>
 
