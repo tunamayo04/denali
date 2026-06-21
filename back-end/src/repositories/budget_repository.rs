@@ -1,10 +1,6 @@
 use diesel::prelude::*;
 use chrono::NaiveDate;
-use crate::models::requests::add_budget_item_request::AddBudgetItemRequest;
-use crate::models::requests::delete_budget_item_request::DeleteBudgetItemRequest;
-use crate::models::requests::edit_budget_item_request::EditBudgetItemRequest;
-use crate::models::responses::budget_item::BudgetItem;
-use crate::models::requests::get_budget_items_request::GetBudgetItemsRequest;
+use crate::models::budget::*;
 use crate::repositories::establish_connection;
 use crate::repositories::schema::budget_items::*;
 use crate::repositories::schema::budget_items::dsl::budget_items;

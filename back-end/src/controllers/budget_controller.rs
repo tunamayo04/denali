@@ -1,13 +1,18 @@
 use axum::extract::Query;
 use axum::http::StatusCode;
-use axum::Json;
+use axum::{Json, Router};
+use axum::routing::{delete, get, post, put};
 use tracing::log;
-use crate::models::requests::add_budget_item_request::AddBudgetItemRequest;
-use crate::models::requests::delete_budget_item_request::DeleteBudgetItemRequest;
-use crate::models::requests::edit_budget_item_request::EditBudgetItemRequest;
-use crate::models::responses::budget_item::BudgetItem;
-use crate::models::requests::get_budget_items_request::GetBudgetItemsRequest;
+use crate::models::budget::*;
 use crate::repositories::budget_repository;
+
+pub fn router() -> Router {
+    Router::new()
+        .route("/getBudgetItems", get(get_budget_items))
+        .route("/addBudgetItem", post(add_budget_item))
+        .route("/editBudgetItem", put(edit_budget_item))
+        .route("/deleteBudgetItem", delete(delete_budget_item))
+}
 
 /// /GetBudgetItems
 pub async fn get_budget_items(Query(params): Query<GetBudgetItemsRequest>) -> (StatusCode, Json<Vec<BudgetItem>>) {

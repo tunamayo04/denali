@@ -24,9 +24,11 @@
 
     <section class="budget-content">
       <PieChartCard
-        :labels="budgetData.map((item) => item.category)"
-        :colors="budgetData.map((item) => item.color)"
-        :data="budgetData.map((item) => item.budget_amount)"
+        :labels="budgetData.filter((item) => item.budget_amount > 0).map((item) => item.category)"
+        :colors="budgetData.filter((item) => item.budget_amount > 0).map((item) => item.color)"
+        :data="
+          budgetData.filter((item) => item.budget_amount > 0).map((item) => item.budget_amount)
+        "
       />
       <TableCard
         :budget-data="budgetData"
@@ -46,8 +48,12 @@ import type { BudgetItem } from '@/models/budget.d'
 import PieChartCard from '@/components/cards/PieChartCard.vue'
 import TableCard from '@/components/cards/TableCard.vue'
 import { useBudgetStore } from '@/stores/budgetStore'
+import { useTransactionsStore } from '@/stores/transactionsStore.ts'
+import type { GetTransactionsRequest } from '@/models/transactions'
+import { Filter } from '@/models/shared.ts'
 
 const budgetStore = useBudgetStore()
+const transactionsStore = useTransactionsStore()
 
 // Selected month, owned here and driven by the MonthPicker
 const currentMonth = ref<Date>(new Date(2026, 5, 1))
@@ -59,6 +65,13 @@ watch(currentMonth, (date) => fetchMonthlyData(date))
 
 onMounted(async () => {
   await fetchMonthlyData(currentMonth.value)
+
+  const payload: GetTransactionsRequest = {
+    date: Filter.eq('2026-06-19'),
+  }
+
+  await transactionsStore.fetchTransactions(payload)
+  console.log(transactionsStore.transactions);
 })
 
 // Budget Store Computed Values
@@ -75,7 +88,7 @@ const onDelete = (id: number) => {
   budgetStore.deleteBudgetItem(id)
 }
 const onAdd = (item: BudgetItem) => {
-  item.month = currentMonth.value;
+  item.month = currentMonth.value
   budgetStore.addBudgetItem(item)
 }
 const onEdit = (item: BudgetItem) => {
@@ -140,7 +153,9 @@ const onEdit = (item: BudgetItem) => {
   background: transparent;
   color: var(--color-text-secondary);
   cursor: pointer;
-  transition: background-color 0.15s, color 0.15s;
+  transition:
+    background-color 0.15s,
+    color 0.15s;
 }
 
 .step-btn:hover {

@@ -1,9 +1,8 @@
-use axum::{routing::get, routing::delete, Router};
+use axum::{Router};
 use axum::http::Method;
-use axum::routing::{post, put};
 use tower::ServiceBuilder;
 use tower_http::cors::{Any, CorsLayer};
-use crate::controllers::budget_controller::*;
+use crate::controllers::{budget_controller, transactions_controller};
 
 pub mod controllers;
 pub mod repositories;
@@ -22,10 +21,8 @@ async fn main() {
         .layer(cors);
 
     let app = Router::new()
-        .route("/GetBudgetItems", get(get_budget_items))
-        .route("/AddBudgetItem", post(add_budget_item))
-        .route("/EditBudgetItem", put(edit_budget_item))
-        .route("/DeleteBudgetItem", delete(delete_budget_item))
+        .nest("/budget", budget_controller::router())
+        .nest("/transactions", transactions_controller::router())
         .layer(service);
 
     // run our app with hyper, listening globally on port 3000
