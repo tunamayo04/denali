@@ -5,6 +5,7 @@ export class Endpoints {
   public static DELETE_BUDGET_ITEM = '/budget/deleteBudgetItem'
 
   public static GET_ACCOUNTS = '/accounts/getAccounts'
+  public static ADD_ACCOUNT = '/accounts/addAccount'
 
   public static GET_TRANSACTIONS = '/transactions/getTransactions'
 }

@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import type { GetTransactionsRequest, Transaction } from '@/models/transactions'
 import TransactionsService from '@/services/transactionsService.ts'
 import { ref } from 'vue'
-import type { Account } from '@/models/accounts'
+import type { Account, AddAccountRequest } from '@/models/accounts'
 import AccountsService from '@/services/accounts.ts'
 
 export const useAccountsStore = defineStore('accounts', () => {
@@ -24,9 +24,30 @@ export const useAccountsStore = defineStore('accounts', () => {
     }
   }
 
+  async function addAccount(payload: AddAccountRequest): Promise<void> {
+    loading.value = true
+    error.value = null
+    try {
+      const status = await AccountsService.addAccount(payload)
+
+      if (status === 204 || status === 200 || status === 201) {
+        await fetchAccounts()
+      } else {
+        throw new Error('Could not create account')
+      }
+    } catch (e: any) {
+      error.value = e.message || 'Could not create account'
+    } finally {
+      loading.value = false
+    }
+  }
+
   return {
     accounts,
+    loading,
+    error,
 
     fetchAccounts,
+    addAccount,
   }
 })

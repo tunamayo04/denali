@@ -4,6 +4,13 @@
       <div class="header-left">
         <h2>Accounts</h2>
       </div>
+
+      <div class="header-actions">
+        <button class="btn-primary" @click="modalVisible = true">
+          <span class="material-symbols-outlined">add</span>
+          Add Account
+        </button>
+      </div>
     </header>
     <AccountCard
       v-for="accountGroup in accountGroups"
@@ -12,20 +19,30 @@
       :accounts="accountGroup.accounts"
       :type="accountGroup.type"
     />
+
+    <AccountModal :visible="modalVisible" @close="modalVisible = false" @save="onAdd" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useAccountsStore } from '@/stores/accountsStore.ts'
 import AccountCard from '@/components/accounts/AccountCard.vue'
-import { type Account, AccountType } from '@/models/accounts.d'
+import AccountModal from '@/components/accounts/AccountModal.vue'
+import { type Account, type AddAccountRequest, AccountType } from '@/models/accounts.d'
 
 const accountsStore = useAccountsStore()
+
+const modalVisible = ref(false)
 
 onMounted(async () => {
   await accountsStore.fetchAccounts()
 })
+
+const onAdd = (account: AddAccountRequest) => {
+  console.log('Adding account:', account)
+  accountsStore.addAccount(account)
+}
 
 const accountGroups = computed(() => {
   return accountsStore.accounts.reduce(
@@ -52,5 +69,23 @@ const accountGroups = computed(() => {
 
 .account-card {
   margin: 20px 0;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-primary .material-symbols-outlined {
+  font-size: 18px;
 }
 </style>

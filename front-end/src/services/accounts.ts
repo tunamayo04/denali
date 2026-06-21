@@ -1,6 +1,6 @@
 import { HttpClientService } from '@/services/httpClientService.ts'
 import { Endpoints } from '@/shared/endpoints.ts'
-import type { Account } from '@/models/accounts'
+import type { Account, AddAccountRequest } from '@/models/accounts'
 
 export default class AccountsService {
   static readonly httpClient: HttpClientService = new HttpClientService()
@@ -19,6 +19,17 @@ export default class AccountsService {
           updated_at: new Date(account.updated_at),
         }
       });
+    } catch (error) {
+      console.error(error)
+      throw error
+    }
+  }
+
+  static async addAccount(payload: AddAccountRequest): Promise<number> {
+    try {
+      const response = await this.httpClient.post(Endpoints.ADD_ACCOUNT, payload)
+
+      return response.status
     } catch (error) {
       console.error(error)
       throw error
