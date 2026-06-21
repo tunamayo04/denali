@@ -12,7 +12,12 @@ export default class TransactionsService {
         payload
       )
 
-      return response.data
+      // The API returns amount as a string; coerce to a number so the
+      // Transaction.amount: number contract holds for all consumers.
+      return response.data.map((transaction) => ({
+        ...transaction,
+        amount: Number(transaction.amount),
+      }))
     } catch (error) {
       console.error(error)
       throw error
