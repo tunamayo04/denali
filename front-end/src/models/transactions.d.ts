@@ -3,6 +3,9 @@ import type { IsoDate } from '@/models/shared.ts'
 export interface Transaction {
   id: number,
   vendor_id: number,
+  vendor_name: string,
+  account_id: number,
+  account_name: string,
   amount: number,
   date: Date,
 }

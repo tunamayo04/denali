@@ -26,17 +26,18 @@ pub enum Filter<T> {
 }
 
 impl<T> Filter<T> {
-    pub fn apply<C>(self, column: C) -> Box<dyn BoxableExpression<C::Table, Pg, SqlType = Bool>>
+    pub fn apply<C, QS>(self, column: C) -> Box<dyn BoxableExpression<QS, Pg, SqlType = Bool>>
     where
         C: Column + ExpressionMethods + Copy
         + ValidGrouping<(), IsAggregate = diesel::expression::is_aggregate::No>
-        + AppearsOnTable<C::Table> + SelectableExpression<C::Table>
+        + AppearsOnTable<QS> + SelectableExpression<QS>
         + QueryFragment<Pg> + Send + 'static,
         C::SqlType: SingleValue<IsNull = diesel::sql_types::is_nullable::NotNull>,
         T: AsExpression<C::SqlType> + Send + 'static,
-        T::Expression: AppearsOnTable<C::Table>
+        T::Expression: AppearsOnTable<QS>
         + ValidGrouping<(), IsAggregate = diesel::expression::is_aggregate::Never>
-        + SelectableExpression<C::Table> + QueryFragment<Pg> + Send + 'static,
+        + SelectableExpression<QS> + QueryFragment<Pg> + Send + 'static,
+        QS: Send + 'static,
     {
         match self {
             Filter::Eq(value) => Box::new(column.eq(value)),

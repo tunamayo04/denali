@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourcePerFileMappings">
-    <file url="file://$PROJECT_DIR$/migrations/2026-06-19-180458-0000_create_budget/down.sql" value="9ab950c2-8686-483d-9a5d-f5637e4dfc3c" />
-    <file url="file://$PROJECT_DIR$/migrations/2026-06-19-180458-0000_create_budget/up.sql" value="9ab950c2-8686-483d-9a5d-f5637e4dfc3c" />
+    <file url="file://$PROJECT_DIR$/migrations/00100_create_budget/down.sql" value="9ab950c2-8686-483d-9a5d-f5637e4dfc3c" />
+    <file url="file://$PROJECT_DIR$/migrations/00100_create_budget/up.sql" value="9ab950c2-8686-483d-9a5d-f5637e4dfc3c" />
   </component>
 </project>

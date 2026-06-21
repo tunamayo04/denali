@@ -16,7 +16,9 @@
       >
         <span class="row-icon material-symbols-outlined">receipt_long</span>
 
-        <div class="row-vendor">Vendor #{{ transaction.vendor_id }}</div>
+        <div class="row-vendor">{{ transaction.vendor_name }}</div>
+
+        <div class="row-account">{{ transaction.account_name }}</div>
 
         <span
           class="row-amount"
@@ -126,7 +128,17 @@ const groupedTransactions = computed<TransactionGroup[]>(() => {
 }
 
 .row-vendor {
-  flex: 1;
+  flex: 0 0 200px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-main);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.row-account {
+  flex: 0 0 200px;
   font-size: 14px;
   font-weight: 500;
   color: var(--color-text-main);
@@ -136,6 +148,7 @@ const groupedTransactions = computed<TransactionGroup[]>(() => {
 }
 
 .row-amount {
+  margin-left: auto;
   font-size: 14px;
   font-weight: 600;
   font-variant-numeric: tabular-nums;

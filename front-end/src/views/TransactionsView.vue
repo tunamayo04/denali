@@ -30,7 +30,7 @@ const currentMonth = ref<Date>(new Date(2026, 5, 1))
 
 onMounted(async () => {
   const payload: GetTransactionsRequest = {
-    date: Filter.lt('2026-06-20'),
+    date: Filter.lt('2026-06-30'),
   }
 
   await transactionsStore.fetchTransactions(payload)
