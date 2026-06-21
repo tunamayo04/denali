@@ -30,3 +30,7 @@
 .positive {
   color: var(--c-bright-green) !important;
 }
+
+.negative {
+  color: var(--c-bright-red) !important;
+}

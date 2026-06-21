@@ -1,7 +1,3 @@
-// The API sends dates as date-only strings (YYYY-MM-DD). Passing those to
-// `new Date()` parses them as UTC midnight, which then renders as the previous
-// day in timezones west of UTC. Build the Date from the date parts instead so
-// it lands on local midnight and the displayed day matches the data.
 export const parseLocalDate = (value: string | Date): Date => {
   if (value instanceof Date) {
     return value
@@ -20,4 +16,16 @@ export const formatCurrency = (value: number, markPositive: boolean = false): st
   else {
     return amount.replace('-', '')
   }
+}
+
+export const formatDateDifference = (date: Date) => {
+  const now = new Date()
+  const diff = now.getTime() - date.getTime()
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24))
+  const hours = Math.floor(diff / (1000 * 60 * 60))
+
+  if (days <= 0) {
+    return `${hours} hour${hours > 1 ? 's' : ''} ago`
+  }
+  return `${days} day${days > 1 ? 's' : ''} ago`
 }

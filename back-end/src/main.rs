@@ -2,7 +2,8 @@ use axum::{Router};
 use axum::http::Method;
 use tower::ServiceBuilder;
 use tower_http::cors::{Any, CorsLayer};
-use crate::controllers::{budget_controller, transactions_controller};
+use tracing::log;
+use crate::controllers::{accounts_controller, budget_controller, transactions_controller};
 
 pub mod controllers;
 pub mod repositories;
@@ -23,9 +24,10 @@ async fn main() {
     let app = Router::new()
         .nest("/budget", budget_controller::router())
         .nest("/transactions", transactions_controller::router())
+        .nest("/accounts", accounts_controller::router())
         .layer(service);
 
-    // run our app with hyper, listening globally on port 3000
+    log::info!("Starting server on port 3000");
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
     axum::serve(listener, app).await.unwrap();
 }

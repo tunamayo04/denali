@@ -5,6 +5,7 @@ use dotenv::dotenv;
 pub mod schema;
 pub mod budget_repository;
 pub mod transactions_repository;
+pub mod accounts_repository;
 
 pub fn establish_connection() -> PgConnection {
     dotenv().ok();

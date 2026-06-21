@@ -20,6 +20,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'Transactions',
     component: () => import('../views/TransactionsView.vue'),
   },
+  {
+    path: '/accounts',
+    name: 'Accounts',
+    component: () => import('../views/AccountsView.vue'),
+  }
   // {
   //   path: '/profile',
   //   name: 'Profile',

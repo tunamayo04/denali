@@ -1,6 +1,7 @@
 pub mod budget;
 pub mod transactions;
 pub mod vendors;
+pub mod accounts;
 
 use diesel::prelude::*;
 use diesel::pg::Pg;
