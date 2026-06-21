@@ -45,6 +45,7 @@ const navItems: NavItem[] = [
   { label: 'nav.overview', path: '/overview', icon: 'insert_chart' },
   { label: 'nav.budget', path: '/budget', icon: 'savings' },
   { label: 'nav.transactions', path: '/transactions', icon: 'sync_alt' },
+  { label: 'nav.accounts', path: '/accounts', icon: 'account_balance' },
 ]
 </script>
 

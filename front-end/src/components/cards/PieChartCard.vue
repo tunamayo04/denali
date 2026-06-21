@@ -1,5 +1,5 @@
 <template>
-  <div class="visual-card">
+  <div class="card">
     <div class="chart-wrapper">
       <Doughnut :options="chartOptions" :data="chartData" />
     </div>
@@ -64,14 +64,11 @@ const pills = computed(() =>
 
 <style scoped>
 .visual-card {
-  background: var(--color-background-soft);
-  border-radius: 16px;
   padding: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
   height: fit-content;
 }
 

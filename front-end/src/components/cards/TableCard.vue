@@ -1,6 +1,6 @@
 <template>
   <BudgetItemModal :visible="modalVisible" :modelValue="editingItem" @close="modalVisible = false" @save="saveItem" />
-  <div class="table-card">
+  <div class="card table-card">
     <div class="table-header-row">
       <h3>Budget Allocations</h3>
       <button class="btn-add-item" @click="openAddModal()">
@@ -117,10 +117,7 @@ const saveItem = (item: BudgetItem) => {
 
 <style scoped>
 .table-card {
-  background: var(--color-background-soft);
-  border-radius: 16px;
   padding: 24px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
 }
 
 .table-header-row {

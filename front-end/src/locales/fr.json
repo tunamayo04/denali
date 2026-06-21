@@ -6,7 +6,21 @@
     "overview": "Aperçu",
     "budget": "Budget",
     "transactions": "Transactions",
+    "accounts": "Comptes",
     "help": "Aide",
     "profile": "Profil"
+  },
+  "transactions": {
+    "title": "Transactions",
+    "summary": {
+      "totalTransactions": "Transactions Totales",
+      "largestTransaction": "Plus grande transaction",
+      "largestExpense": "Plus grande dépense",
+      "averageTransaction": "Transaction moyenne",
+      "totalIncome": "Revenus totaux",
+      "totalExpenses": "Dépenses totales",
+      "firstTransaction": "Première transaction",
+      "lastTransaction": "Dernière transaction"
+    }
   }
 }

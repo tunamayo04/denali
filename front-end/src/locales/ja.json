@@ -6,7 +6,21 @@
     "overview": "概要",
     "budget": "予算",
     "transactions": "取引",
+    "accounts": "口座",
     "help": "ヘルプ",
     "profile": "プロフィール"
+  },
+  "transactions": {
+    "title": "取引",
+    "summary": {
+      "totalTransactions": "取引総数",
+      "largestTransaction": "最大取引",
+      "largestExpense": "最大支出",
+      "averageTransaction": "平均取引",
+      "totalIncome": "収入合計",
+      "totalExpenses": "支出合計",
+      "firstTransaction": "最初の取引",
+      "lastTransaction": "最後の取引"
+    }
   }
 }

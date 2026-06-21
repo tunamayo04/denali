@@ -1,5 +1,5 @@
 <template>
-  <div class="metric-card" :class="{ 'alert-card': alert, 'green-card': green }">
+  <div class="metric-card card" :class="{ 'alert-card': alert, 'green-card': green }">
     <span class="card-label">{{ props.title }}</span>
     <h3 class="card-value">{{ formatCurrency(props.amount) }}</h3>
   </div>
@@ -31,13 +31,8 @@ const props = defineProps({
 
 <style scoped>
 .metric-card {
-  background: var(--color-background-soft);
-  border-radius: 16px;
   padding: 24px;
   flex: 1;
-  border: 1px solid rgba(0, 0, 0, 0.02);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
-  transition: transform 0.2s;
 }
 
 .metric-card .card-label {

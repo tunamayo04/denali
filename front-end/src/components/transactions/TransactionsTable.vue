@@ -6,7 +6,7 @@
         <span
           class="date-total"
           :class="{ positive: group.total > 0 }"
-        >{{ formatSignedCurrency(group.total) }}</span>
+        >{{ formatCurrency(group.total, true) }}</span>
       </div>
 
       <div
@@ -23,7 +23,7 @@
         <span
           class="row-amount"
           :class="{ positive: transaction.amount > 0 }"
-        >{{ formatSignedCurrency(transaction.amount) }}</span>
+        >{{ formatCurrency(transaction.amount, true) }}</span>
 
         <span class="row-chevron material-symbols-outlined">chevron_right</span>
       </div>
@@ -36,7 +36,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { Transaction } from '@/models/transactions'
-import { formatCurrency } from '@/shared/utils'
+import { formatCurrency, parseLocalDate } from '@/shared/utils'
 
 const props = defineProps<{
   transactions: Transaction[],
@@ -49,17 +49,13 @@ interface TransactionGroup {
   transactions: Transaction[],
 }
 
-const formatSignedCurrency = (value: number): string => {
-  const formatted = formatCurrency(Math.abs(value))
-  return value > 0 ? `+${formatted}` : formatted
-}
 
 const groupedTransactions = computed<TransactionGroup[]>(() => {
   const groups = new Map<string, TransactionGroup>()
 
   for (const transaction of props.transactions) {
-    const date = new Date(transaction.date)
-    const key = date.toISOString().slice(0, 10)
+    const date = parseLocalDate(transaction.date)
+    const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
 
     let group = groups.get(key)
     if (!group) {
@@ -153,10 +149,6 @@ const groupedTransactions = computed<TransactionGroup[]>(() => {
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   color: var(--color-text-main);
-}
-
-.positive {
-  color: var(--c-bright-green);
 }
 
 .row-chevron {
